@@ -9,6 +9,10 @@
     "dev": "webpack watch",
     "build": "webpack build"
   },
+  "repository": {
+   "type": "git",
+   "url": "https://github.com/useraskapp/js-sdk.git"
+  },
   "dependencies": {
     "axios": "^0.26.0"
   },
