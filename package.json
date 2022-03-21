@@ -1,6 +1,6 @@
 {
   "name": "@userask/js-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Javascript SDK for UserAsk",
   "main": "index.js",
   "author": "Harish",
@@ -10,8 +10,8 @@
     "build": "webpack build"
   },
   "repository": {
-   "type": "git",
-   "url": "https://github.com/useraskapp/js-sdk.git"
+    "type": "git",
+    "url": "https://github.com/useraskapp/js-sdk.git"
   },
   "dependencies": {
     "axios": "^0.26.0"
