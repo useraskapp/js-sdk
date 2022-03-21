@@ -5,7 +5,7 @@ export default class UserAsk {
 
     private projectId: string;
     private requestId: string;
-    private readonly apiURL: string = "http://localhost:8080/public/api/v1/execution";
+    private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
 
     constructor(projectId: string) {
         this.projectId = projectId;
