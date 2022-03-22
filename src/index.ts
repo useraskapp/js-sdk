@@ -1,2 +1,1 @@
-const UserAsk = require("./userask").default;
-module.exports = UserAsk;
+export * from "./userask";

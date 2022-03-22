@@ -1,7 +1,6 @@
-import axios from "axios";
 import "./userask.scss";
 
-export default class UserAsk {
+export class UserAsk {
 
     private projectId: string;
     private requestId: string;
@@ -14,7 +13,7 @@ export default class UserAsk {
     }
 
     // creates a form box initally
-    createFormBox() {
+    private createFormBox() {
         if (!document.getElementById("userask-form")) {
             let formBox = document.createElement("div");
             formBox.id = "userask-form";
@@ -39,18 +38,27 @@ export default class UserAsk {
             }
         }
         let root = document.documentElement;
-        let response = await axios.post(`${this.apiURL}/log-event`, log_data);
-        if (response.data !== null) {
-            root.style.setProperty("--userask-theme", response.data.theme);
-            this.requestId = response.data.request_id;
-            this.renderForm(response.data.form_data);
+        let response = await fetch(`${this.apiURL}/log-event`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(log_data)
+        });
+        let result: any = response.json();
+
+        if (result !== null) {
+            root.style.setProperty("--userask-theme", result.theme);
+            this.requestId = result.request_id;
+            this.renderForm(result.form_data);
         } else {
             return { status: "event logged" };
         }
     }
 
     // submits the form
-    async submitForm(responseData: any) {
+    private async submitForm(responseData: any) {
         try {
 
             let data = {
@@ -58,16 +66,26 @@ export default class UserAsk {
                 data: responseData
             }
 
-            let response = await axios.post(`${this.apiURL}/save-response`, data);
-            if (response.data !== null) {
-                this.renderForm(response.data);
+            let response = await fetch(`${this.apiURL}/save-response`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            let result = response.json();
+
+            if (result !== null) {
+                this.renderForm(result);
             } else {
                 // Close the form
                 let formBox = document.getElementById("userask-form");
                 if (formBox) {
                     this.successPage();
-                    setTimeout(()=>{
-                        if(formBox) {
+                    setTimeout(() => {
+                        if (formBox) {
                             formBox.style.display = "none";
                         }
                     }, 2000)
@@ -82,7 +100,7 @@ export default class UserAsk {
         }
     }
 
-    closeForm() {
+    private closeForm() {
         let formBox = document.getElementById("userask-form");
         if (formBox) {
             formBox.innerHTML = "";
@@ -90,7 +108,7 @@ export default class UserAsk {
         }
     }
 
-    successPage() {
+    private successPage() {
         let formBox = document.getElementById("userask-form");
 
         if (formBox) {
@@ -117,7 +135,7 @@ export default class UserAsk {
         }
     }
 
-    renderForm(formSchema: any) {
+    private renderForm(formSchema: any) {
         let formBox = document.getElementById("userask-form");
 
         if (formBox) {
@@ -288,11 +306,11 @@ export default class UserAsk {
 
             if (formSchema.field_type === "CHOICE") {
                 let optionsList = document.createElement("ul");
-                let selectedOptions: Array<any> = [];
+                let selectedOptions: any = [];
                 optionsList.className = "form__options-list";
 
                 const toggleOption = (index: number, option: any) => {
-                    let presence = selectedOptions.find(op => op === option);
+                    let presence = selectedOptions.find((op: any) => op === option);
                     let optionElement = document.getElementById(`option-${index}`);
                     if (!presence) {
                         selectedOptions.push(option);
@@ -300,7 +318,7 @@ export default class UserAsk {
                             optionElement.classList.add("form__options-list__item--active");
                         }
                     } else {
-                        selectedOptions.splice(selectedOptions.findIndex(op => op === option));
+                        selectedOptions.splice(selectedOptions.findIndex((op: any) => op === option));
                         if (optionElement) {
                             optionElement.classList.remove("form__options-list__item--active");
                         }
