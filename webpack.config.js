@@ -28,7 +28,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        filename: "./dist/[name].js",
+        filename: "[name].js",
         libraryTarget: "umd",
         library: "js-sdk"
     },
