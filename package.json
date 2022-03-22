@@ -16,7 +16,9 @@
     "type": "git",
     "url": "https://github.com/useraskapp/js-sdk.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.26.1"
+  },
   "devDependencies": {
     "css-loader": "^6.7.1",
     "sass": "^1.49.9",
