@@ -1,4 +1,3 @@
-import axios from "axios";
 import "./userask.scss";
 
 export class UserAsk {
@@ -39,12 +38,20 @@ export class UserAsk {
             }
         }
         let root = document.documentElement;
-        let response = await axios.post(`${this.apiURL}/log-event`, log_data);
+        let response = await fetch(`${this.apiURL}/log-event`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(log_data)
+        });
+        let result: any = response.json();
 
-        if (response.data !== null) {
-            root.style.setProperty("--userask-theme", response.data.theme);
-            this.requestId = response.data.request_id;
-            this.renderForm(response.data.form_data);
+        if (result !== null) {
+            root.style.setProperty("--userask-theme", result.theme);
+            this.requestId = result.request_id;
+            this.renderForm(result.form_data);
         } else {
             return { status: "event logged" };
         }
@@ -59,10 +66,19 @@ export class UserAsk {
                 data: responseData
             }
 
-            let response = await axios.post(`${this.apiURL}/save-response`, data);
+            let response = await fetch(`${this.apiURL}/save-response`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
 
-            if (response.data !== null) {
-                this.renderForm(response.data);
+            let result = response.json();
+
+            if (result !== null) {
+                this.renderForm(result);
             } else {
                 // Close the form
                 let formBox = document.getElementById("userask-form");
