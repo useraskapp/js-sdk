@@ -32,7 +32,7 @@
     max-height: 500px;
     border-radius: 10px;
     color: #252525;
-    z-index: 30;
+    z-index: 500;
 
     &:hover {
         transition: all 200ms;
@@ -373,7 +373,7 @@
         border-radius: 8px;
         background: #f5f5f5;
         border: 2px solid #e7e7e7;
-        color: #252525;
+        
 
         cursor: pointer;
 
@@ -382,12 +382,19 @@
             background: #ececec;
         }
 
+        .form__options-list__item span {
+            color: #252525;
+        }
+
     }
 
     .form__options-list__item--active {
         background: #a5ffc0;
         border: 2px solid #4ef881;
-        color: green;
+
+        .form__options-list__item--active span {
+            color: green;
+        }
 
         &:hover {
             transition: all 200ms;
@@ -414,10 +421,10 @@
     justify-content: space-between;
     padding-left: 1em;
     padding-right: 1em;
-    color: #252525;
 
     p {
         font-size: 1em;
+        color: #252525;
     }
 
 }
