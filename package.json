@@ -1,6 +1,6 @@
 {
   "name": "@userask/js-sdk",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Javascript SDK for UserAsk",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
