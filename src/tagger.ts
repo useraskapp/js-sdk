@@ -2,7 +2,7 @@ import "./tagger.scss";
 
 export class Tagger {
 
-    private origin: string = "http://localhost:3000";
+    private origin: string = "https://beta.userask.co";
 
     private captureClick = (e: any) => {
         e.stopPropagation();
