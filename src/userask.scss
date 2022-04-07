@@ -362,7 +362,6 @@
 .form__options-list {
     list-style-type: none;
     min-width: 350px;
-    color: #252525;
 
     .form__options-list__item {
 
@@ -382,7 +381,7 @@
             background: #ececec;
         }
 
-        .form__options-list__item span {
+        span {
             color: #252525;
         }
 
@@ -401,6 +400,9 @@
             background: #d0ffde;
         }
 
+        span {
+            color: #252525;
+        }
     }
 
 }
