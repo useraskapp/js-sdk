@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
     --userask-theme: #cf9800;
@@ -9,8 +9,18 @@
     margin: 0%;
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .userask-form-box {
-    font-family: "Raleway", sans-serif;
+    font-family: "Lato", sans-serif;
     margin: 0%;
     padding: 1.5em;
     position: fixed;
@@ -21,7 +31,7 @@
     backdrop-filter: blur(10px);
     font-weight: 500;
     max-height: 500px;
-    max-width: 500px;
+    border-radius: 10px;
 
     &:hover {
         transition: all 200ms;
@@ -31,18 +41,36 @@
         bottom: 0%;
         left: 0%;
         right: 0%;
-        margin:0px;
+        margin: 0px;
         width: calc(100vw - 2em);
         padding: 1em;
     }
 
 }
 
+
+.form__spinner-container {
+    height: 400px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form__spinner-container__spinner {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--userask-theme) var(--userask-theme) transparent;
+        animation: spin 1s linear infinite;
+    }
+}
+
 .form__title {
     font-weight: 600;
     font-size: 25px;
     margin-bottom: 5px;
-
 
 }
 
@@ -55,11 +83,14 @@
 
 .form__nps-list {
     list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
     .form__nps-list__item {
         float: left;
-        margin-left: .2em;
-        margin-right: .2em;
+        margin-left: .1em;
+        margin-right: .1em;
         height: 40px;
         width: 40px;
         display: flex;
@@ -85,7 +116,7 @@
         }
 
     }
-    
+
     .form__nps-list__item--active {
         transition: all 200ms;
         background: var(--userask-theme);
@@ -97,6 +128,9 @@
 .form__five-scale-list {
 
     list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
 
     .form__five-scale-list__item {
@@ -134,6 +168,9 @@
 .form__five-star-list {
 
     list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
 
     .form__five-star-list__item {
@@ -150,42 +187,43 @@
 
         .form__five-star-list__item__star {
             position: relative;
-            
+
             display: inline-block;
             width: 0;
             height: 0;
-            
+
             margin-left: .9em;
             margin-right: .9em;
             margin-bottom: 1.2em;
-            
-            border-right:  .3em solid transparent;
-            border-bottom: .7em  solid #c0c0c0;
-            border-left:   .3em solid transparent;
-          
+
+            border-right: .3em solid transparent;
+            border-bottom: .7em solid #c0c0c0;
+            border-left: .3em solid transparent;
+
             /* Controlls the size of the stars. */
             font-size: 24px;
-            
-            &:before, &:after {
-              content: '';
-              
-              display: block;
-              width: 0;
-              height: 0;
-              
-              position: absolute;
-              top: .6em;
-              left: -1em;
-            
-              border-right:  1em solid transparent;
-              border-bottom: .7em  solid #c0c0c0;
-              border-left:   1em solid transparent;
-            
-              transform: rotate(-35deg);
+
+            &:before,
+            &:after {
+                content: '';
+
+                display: block;
+                width: 0;
+                height: 0;
+
+                position: absolute;
+                top: .6em;
+                left: -1em;
+
+                border-right: 1em solid transparent;
+                border-bottom: .7em solid #c0c0c0;
+                border-left: 1em solid transparent;
+
+                transform: rotate(-35deg);
             }
-            
-            &:after {  
-              transform: rotate(35deg);
+
+            &:after {
+                transform: rotate(35deg);
             }
         }
 
@@ -195,38 +233,39 @@
             display: inline-block;
             width: 0;
             height: 0;
-            
+
             margin-left: .9em;
             margin-right: .9em;
             margin-bottom: 1.2em;
-            
-            border-right:  .3em solid transparent;
-            border-bottom: .7em  solid #FC0;
-            border-left:   .3em solid transparent;
-          
+
+            border-right: .3em solid transparent;
+            border-bottom: .7em solid #FC0;
+            border-left: .3em solid transparent;
+
             /* Controlls the size of the stars. */
             font-size: 24px;
-            
-            &:before, &:after {
-              content: '';
-              
-              display: block;
-              width: 0;
-              height: 0;
-              
-              position: absolute;
-              top: .6em;
-              left: -1em;
-            
-              border-right:  1em solid transparent;
-              border-bottom: .7em  solid #FC0;
-              border-left:   1em solid transparent;
-            
-              transform: rotate(-35deg);
+
+            &:before,
+            &:after {
+                content: '';
+
+                display: block;
+                width: 0;
+                height: 0;
+
+                position: absolute;
+                top: .6em;
+                left: -1em;
+
+                border-right: 1em solid transparent;
+                border-bottom: .7em solid #FC0;
+                border-left: 1em solid transparent;
+
+                transform: rotate(-35deg);
             }
-            
-            &:after {  
-              transform: rotate(35deg);
+
+            &:after {
+                transform: rotate(35deg);
             }
 
         }
@@ -241,16 +280,17 @@
     border-radius: 5px;
     border: 2px solid #ebebeb;
     resize: none;
-    font-family: "Raleway";
+    font-family: "Lato";
     background-color: #fafafac7;
     font-size: 16px;
     padding: 0.5em;
+
     &:focus {
-        transition: all 200ms;
+        transition: all 100ms;
         outline: none;
         border: 2px solid var(--userask-theme);
     }
-    
+
     @media (max-width: 450px) {
         width: 90%;
     }
@@ -264,23 +304,23 @@
     color: white;
     background: var(--userask-theme);
     cursor: pointer;
+
     &:hover {
         transition: all 200ms;
         filter: brightness(1.2);
     }
 
-    
-
 }
 
 .form__close-button {
     all: unset;
-    font-size: 1.5em;
+    font-size: 1.75em;
     color: #919191;
     position: absolute;
     top: 3%;
-    right: 3%;
+    right: 4%;
     cursor: pointer;
+
     &:hover {
         transition: all 200ms;
         text-decoration: underline;
@@ -289,6 +329,10 @@
 
 .form__emoji-list {
     list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
 
     .form__emoji-list__item {
         float: left;
@@ -300,17 +344,18 @@
             margin-left: -0.15em;
             margin-right: -0.15em;
         }
-        
+
         &:hover {
             transform: scale(1.2);
             transition: all 200ms;
         }
     }
-    
+
 }
 
 .form__options-list {
     list-style-type: none;
+    min-width: 350px;
 
     .form__options-list__item {
 
@@ -319,14 +364,14 @@
         margin-bottom: 5px;
         text-align: center;
         border-radius: 8px;
-        background: #f1f1f1;
-        border: 2px solid #d1d1d1;
+        background: #f5f5f5;
+        border: 2px solid #e7e7e7;
 
         cursor: pointer;
-        
+
         &:hover {
             transition: all 200ms;
-            background: #dfdfdf;
+            background: #ececec;
         }
 
     }
@@ -342,5 +387,27 @@
         }
 
     }
-    
+
+}
+
+.form__endpage {
+    width: 400px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__scale-text {
+    display: flex;
+    margin-top: 0.5em;
+    justify-content: space-between;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    p {
+        font-size: 1em;
+    }
+
 }

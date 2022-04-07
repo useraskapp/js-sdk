@@ -1,16 +1,90 @@
 import axios from "axios";
 import "./userask.scss";
 
+interface InitProps {
+    projectId: string
+    userId: string
+}
+
 export class UserAsk {
 
     private projectId: string;
     private requestId: string;
-    private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
+    private userId: string;
 
-    constructor(projectId: string) {
-        this.projectId = projectId;
+    private readonly apiURL: string = "http://localhost:8080/public/api/v1/execution";
+
+    constructor() {
+        this.projectId = "";
         this.requestId = "";
-        this.createFormBox();
+        this.userId = "";
+    }
+
+    public async init(props: InitProps) {
+        try {
+            this.projectId = props.projectId;
+            this.userId = props.userId;
+            this.createFormBox();
+            let tags = await this.fetchTags();
+            this.constructScript(tags);
+
+            window.addEventListener("popstate", () => setTimeout(() => { this.constructScript(tags); }, 100));
+
+            window.history.pushState = new Proxy(window.history.pushState, {
+                apply: (target, thisArg, argArray: any) => {
+                    let output = target.apply(thisArg, argArray);
+                    setTimeout(() => { this.constructScript(tags); }, 100);
+                    return output;
+                },
+            });
+
+        } catch (err) {
+            console.log("ERROR: Failed initializing userask object");
+        }
+    }
+
+
+    private async fetchTags() {
+        let res = await axios.get(`${this.apiURL}/${this.projectId}/tags`);
+        return res.data;
+    }
+
+    // Constructs a script from visual tagger
+    private async constructScript(tags: Array<any>, elementOnly: boolean = false) {
+        for (let tag of tags) {
+            // If page matches
+            if (tag.script.type === "page" && elementOnly === false) {
+                if (tag.script.url_path === window.location.pathname) {
+                    this.logEvent(tag.script.identifier, "");
+                }
+            }
+
+            // If element Matches
+            if (tag.script.type === "element") {
+                // If the selector is id
+                if (tag.script.selector === "id") {
+                    let elm = document.getElementById(tag.script.selector_value);
+                    if (elm) {
+                        elm.addEventListener(tag.script.event_on, () => {
+                            if (tag.script.url_path === window.location.pathname) {
+                                this.logEvent(tag.script.identifier, "");
+                            }
+                        })
+                    }
+                } else {
+                    let elms = document.getElementsByClassName(tag.script.selector_value);
+                    if (elms) {
+                        for (let index in elms) {
+                            elms[index].addEventListener(tag.script.event_on, () => {
+                                if (tag.script.url_path === window.location.pathname) {
+                                    this.logEvent(tag.script.identifier, "");
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // creates a form box initally
@@ -25,7 +99,7 @@ export class UserAsk {
     }
 
     // calls to log an event
-    async logEvent(event_indentifier: string, fingerprint: string | null, value: any) {
+    public async logEvent(event_indentifier: string, description: any) {
         if (event_indentifier === null) {
             throw new Error("no event identifier is present");
         }
@@ -34,8 +108,8 @@ export class UserAsk {
             event_identifier: event_indentifier,
             project_id: this.projectId,
             data: {
-                fingerprint: fingerprint,
-                value: value
+                fingerprint: this.userId,
+                value: description
             }
         }
         let root = document.documentElement;
@@ -53,7 +127,7 @@ export class UserAsk {
     // submits the form
     private async submitForm(responseData: any) {
         try {
-
+            this.renderSpinner();
             let data = {
                 request_id: this.requestId,
                 data: responseData
@@ -99,23 +173,46 @@ export class UserAsk {
 
             formBox.style.display = "inherit";
 
+            let endPage = document.createElement("div");
+            endPage.className = "form__endpage";
+
             let title = document.createElement("h1");
             title.className = "form__title"
             title.innerHTML = "Thank you 🤗";
-            formBox.append(title);
+            endPage.append(title);
 
             let description = document.createElement("p");
             description.className = "form__description"
             description.innerHTML = "✅ Saved your response";
-            formBox.append(description);
+            endPage.append(description);
 
             let closeButton = document.createElement("button");
             closeButton.onclick = () => this.closeForm();
             closeButton.innerText = "x";
             closeButton.className = "form__close-button";
-            formBox.append(closeButton);
+
+            endPage.append(closeButton);
+
+            formBox.append(endPage);
 
         }
+    }
+
+    private renderSpinner() {
+
+        let formBox = document.getElementById("userask-form");
+
+        if (formBox) {
+            formBox.innerHTML = "";
+            formBox.style.display = "inherit";
+            let spinnerContainer = document.createElement("div");
+            spinnerContainer.className = "form__spinner-container";
+            let spinner = document.createElement("div");
+            spinner.className = "form__spinner-container__spinner";
+            spinnerContainer.append(spinner)
+            formBox.append(spinnerContainer);
+        }
+
     }
 
     private renderForm(formSchema: any) {
@@ -177,7 +274,12 @@ export class UserAsk {
                     npsList.append(npsListItem)
                 }
 
+                let scaleText = document.createElement("div");
+                scaleText.innerHTML = `<p>Not Likely</p><p>Extremely Likely</p>`;
+                scaleText.className = "form__scale-text";
+
                 formBox.append(npsList)
+                formBox.append(scaleText);
 
             }
 
@@ -214,7 +316,13 @@ export class UserAsk {
                     fiveScaleListItem.className = "form__five-scale-list__item";
                     fiveScaleList.append(fiveScaleListItem)
                 }
+
+                let scaleText = document.createElement("div");
+                scaleText.innerHTML = `<p>Not Likely</p><p>Extremely Likely</p>`;
+                scaleText.className = "form__scale-text";
+
                 formBox.append(fiveScaleList)
+                formBox.append(scaleText)
 
             }
 
@@ -254,7 +362,14 @@ export class UserAsk {
                     fiveStarListItem.className = "form__five-star-list__item";
                     fiveStarList.append(fiveStarListItem)
                 }
+
+                let scaleText = document.createElement("div");
+                scaleText.innerHTML = `<p>Not Likely</p><p>Extremely Likely</p>`;
+                scaleText.className = "form__scale-text";
+
+
                 formBox.append(fiveStarList)
+                formBox.append(scaleText)
 
             }
 
@@ -284,7 +399,13 @@ export class UserAsk {
                     emojiListItem.className = "form__emoji-list__item";
                     emojiList.append(emojiListItem)
                 }
+
+                let scaleText = document.createElement("div");
+                scaleText.innerHTML = `<p>Unhappy</p><p>Happy</p>`;
+                scaleText.className = "form__scale-text";
+
                 formBox.append(emojiList)
+                formBox.append(scaleText)
             }
 
             if (formSchema.field_type === "CHOICE") {
