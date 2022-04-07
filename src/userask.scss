@@ -391,17 +391,13 @@
         background: #a5ffc0;
         border: 2px solid #4ef881;
 
-        .form__options-list__item--active span {
-            color: green;
-        }
-
         &:hover {
             transition: all 200ms;
             background: #d0ffde;
         }
 
         span {
-            color: #252525;
+            color: green;
         }
     }
 
