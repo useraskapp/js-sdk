@@ -1,4 +1,3 @@
-
 ## UserAsk Javascript SDK
 
 **Using UserAsk flows using event loggers**
@@ -7,23 +6,26 @@ Step 1: Install Javascript SDK into your codebase using UserAsk's NPM package.
 
     npm i @userask/js-sdk
 
-Step 2: Create a class for UserAsk and pass the Project ID as constructor arguments.
+Step 2: Create a class for UserAsk and initialize the object.
 
     import UserAsk from "@userask/js-sdk";
    
-    const userask = new UserAsk(`${USERASK_PROJECT_ID}`);
+    const userask = new UserAsk();
 
-Step 3: Log the event where specified flow needs to triggered using "logEvent" function
+    userask.init({
+        projectId: ${YOUR_PROJECT_ID},
+        userId: ${YOUR_USER_ID},
+        userMeta: ${USER_METADATA}
+    })
+
+
+Step 3: Show Flow where specified flow needs to triggered using "showSurvey" function
 
     // afterLogin is a user-defined function. 
     function afterLogin() {
-    	userask.logEvent("user-login", `${USER_ID}`,  "new user has been logged in");
+    	userask.showSurvey("user-login");
     }
 
 **Note:**
-The logEvent function takes three arguments:
-1. Event-Identifier
-2. UserID (Fingerprint)
-3. Text Data
-
-
+The showSurvey function takes argument:
+1. Flow-Identifier
