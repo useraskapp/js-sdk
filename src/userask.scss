@@ -18,8 +18,8 @@
     font-family: "Lato", sans-serif;
     margin: 0%;
     padding: 1.5em;
-    position: fixed;
-    box-shadow: 0px 0px 5px #dddddd;
+    position: absolute;
+    box-shadow: 0px 0px 10px #dddddd;
     bottom: 1%;
     right: 1%;
     background-color: white;
@@ -27,7 +27,7 @@
     max-height: 500px;
     border-radius: 10px;
     color: #252525;
-    z-index: 5147483647;
+    z-index: 555555555;
 
     &:hover {
         transition: all 200ms;
@@ -66,18 +66,17 @@
 .form__title {
     font-family: "Lato", sans-serif;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 20px;
     padding: 0%;
     margin: 0%;
-    margin-bottom: 5px;
+    margin-bottom: -0.35em;
     color: #252525;
 }
 
 .form__description {
     font-family: "Lato", sans-serif;
     font-weight: normal;
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 15px;
     color: #252525;
 }
 
@@ -334,12 +333,11 @@
 .form__close-button {
     all: unset;
     font-size: 1.75em;
-    color: #919191;
+    color: rgb(163, 0, 0);
     position: absolute;
     top: 3%;
     right: 4%;
     cursor: pointer;
-    padding: 0%;
     margin: 0%;
     font-family: "Lato", sans-serif;
 
@@ -384,16 +382,17 @@
     padding: 0%;
     margin: 0%;
     font-family: "Lato", sans-serif;
+    margin-right: 0.5em;
 
     .form__options-list__item {
 
-        padding: 8px;
+        padding: 15px 8px;
         margin-top: 5px;
         margin-bottom: 5px;
         text-align: center;
         border-radius: 8px;
         background: #f5f5f5;
-        border: 2px solid #e7e7e7;
+        border: 1px solid #e7e7e7;
         width: 98%;
         font-family: "Lato", sans-serif;
 
@@ -443,7 +442,6 @@
 
 .form__scale-text {
     display: flex;
-    margin-top: 0.5em;
     justify-content: space-between;
     padding-left: 1em;
     padding-right: 1em;

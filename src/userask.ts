@@ -14,7 +14,7 @@ export class UserAsk {
     private userId: string;
     private userMeta: any;
 
-    private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
+    private readonly apiURL: string = "http://localhost:8080/public/api/v1/execution";
 
     constructor() {
         this.projectId = "";
@@ -29,65 +29,8 @@ export class UserAsk {
             this.userId = props.userId;
             this.userMeta = props.userMeta;
             this.createFormBox();
-            let tags = await this.fetchTags();
-            this.constructScript(tags);
-
-            window.addEventListener("popstate", () => setTimeout(() => { this.constructScript(tags); }, 100));
-
-            window.history.pushState = new Proxy(window.history.pushState, {
-                apply: (target, thisArg, argArray: any) => {
-                    let output = target.apply(thisArg, argArray);
-                    setTimeout(() => { this.constructScript(tags); }, 100);
-                    return output;
-                },
-            });
-
         } catch (err) {
             console.log("ERROR: Failed initializing userask object");
-        }
-    }
-
-
-    private async fetchTags() {
-        let res = await axios.get(`${this.apiURL}/${this.projectId}/tags`);
-        return res.data;
-    }
-
-    // Constructs a script from visual tagger
-    private async constructScript(tags: Array<any>, elementOnly: boolean = false) {
-        for (let tag of tags) {
-            // If page matches
-            if (tag.script.type === "page" && elementOnly === false) {
-                if (tag.script.url_path === window.location.pathname) {
-                    this.showSurvey(tag.script.identifier);
-                }
-            }
-
-            // If element Matches
-            if (tag.script.type === "element") {
-                // If the selector is id
-                if (tag.script.selector === "id") {
-                    let elm = document.getElementById(tag.script.selector_value);
-                    if (elm) {
-                        elm.addEventListener(tag.script.event_on, () => {
-                            if (tag.script.url_path === window.location.pathname) {
-                                this.showSurvey(tag.script.identifier);
-                            }
-                        })
-                    }
-                } else {
-                    let elms = document.getElementsByClassName(tag.script.selector_value);
-                    if (elms) {
-                        for (let index in elms) {
-                            elms[index].addEventListener(tag.script.event_on, () => {
-                                if (tag.script.url_path === window.location.pathname) {
-                                    this.showSurvey(tag.script.identifier);
-                                }
-                            })
-                        }
-                    }
-                }
-            }
         }
     }
 
