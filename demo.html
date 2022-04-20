@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./dist/userask-sdk.js"></script>
+</head>
+
+<body>
+    <button onclick="test()">Test</button>
+    <script>
+        async function test() {
+            let userask = new userask_sdk.UserAsk();
+            await userask.init({
+                projectId: "67a9b5d8-4f81-4a39-9f0c-7e7ab783a6bd",
+                userId: ""
+            });
+            userask.logEvent("new-visitor", "A visitor from webflow website");
+        }
+    </script>
+</body>
+
+</html>

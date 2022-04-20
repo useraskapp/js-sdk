@@ -10,7 +10,8 @@
   "author": "Harish",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "package-build": "webpack --config webpack.config.package.js",
+    "cdn-build": "webpack --config webpack.config.cdn.js"
   },
   "repository": {
     "type": "git",

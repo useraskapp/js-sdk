@@ -4,6 +4,7 @@ import "./userask.scss";
 interface InitProps {
     projectId: string
     userId: string
+    userMeta: any
 }
 
 export class UserAsk {
@@ -11,6 +12,7 @@ export class UserAsk {
     private projectId: string;
     private requestId: string;
     private userId: string;
+    private userMeta: any;
 
     private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
 
@@ -18,12 +20,14 @@ export class UserAsk {
         this.projectId = "";
         this.requestId = "";
         this.userId = "";
+        this.userMeta = {};
     }
 
     public async init(props: InitProps) {
         try {
             this.projectId = props.projectId;
             this.userId = props.userId;
+            this.userMeta = props.userMeta;
             this.createFormBox();
             let tags = await this.fetchTags();
             this.constructScript(tags);
@@ -55,7 +59,7 @@ export class UserAsk {
             // If page matches
             if (tag.script.type === "page" && elementOnly === false) {
                 if (tag.script.url_path === window.location.pathname) {
-                    this.logEvent(tag.script.identifier, "");
+                    this.showSurvey(tag.script.identifier);
                 }
             }
 
@@ -67,7 +71,7 @@ export class UserAsk {
                     if (elm) {
                         elm.addEventListener(tag.script.event_on, () => {
                             if (tag.script.url_path === window.location.pathname) {
-                                this.logEvent(tag.script.identifier, "");
+                                this.showSurvey(tag.script.identifier);
                             }
                         })
                     }
@@ -77,7 +81,7 @@ export class UserAsk {
                         for (let index in elms) {
                             elms[index].addEventListener(tag.script.event_on, () => {
                                 if (tag.script.url_path === window.location.pathname) {
-                                    this.logEvent(tag.script.identifier, "");
+                                    this.showSurvey(tag.script.identifier);
                                 }
                             })
                         }
@@ -98,22 +102,21 @@ export class UserAsk {
         }
     }
 
-    // calls to log an event
-    public async logEvent(event_indentifier: string, description: any) {
-        if (event_indentifier === null) {
+    // calls to show survey
+    public async showSurvey(identifier: string) {
+        if (identifier === null) {
             throw new Error("no event identifier is present");
         }
 
-        let log_data = {
-            event_identifier: event_indentifier,
+        let flow_data = {
+            identifier: identifier,
             project_id: this.projectId,
-            data: {
-                fingerprint: this.userId,
-                value: description
-            }
+            user_id: this.userId,
+            user_meta: this.userMeta
         }
+
         let root = document.documentElement;
-        let response = await axios.post(`${this.apiURL}/log-event`, log_data);
+        let response = await axios.post(`${this.apiURL}/show-flow`, flow_data);
 
         if (response.data !== null) {
             root.style.setProperty("--userask-theme", response.data.theme);
@@ -178,12 +181,12 @@ export class UserAsk {
 
             let title = document.createElement("h1");
             title.className = "form__title"
-            title.innerHTML = "Thank you 🤗";
+            title.innerHTML = "Thank you for providing feedback";
             endPage.append(title);
 
             let description = document.createElement("p");
             description.className = "form__description"
-            description.innerHTML = "✅ Saved your response";
+            description.innerHTML = "✅ Your response has been saved";
             endPage.append(description);
 
             let closeButton = document.createElement("button");
@@ -194,7 +197,6 @@ export class UserAsk {
             endPage.append(closeButton);
 
             formBox.append(endPage);
-
         }
     }
 

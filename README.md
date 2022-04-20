@@ -1,7 +1,7 @@
 
 ## UserAsk Javascript SDK
 
-**Using UserAsk surveys using event loggers**
+**Using UserAsk flows using event loggers**
 
 Step 1: Install Javascript SDK into your codebase using UserAsk's NPM package.
 
