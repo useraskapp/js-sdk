@@ -14,7 +14,7 @@ export class UserAsk {
     private userId: string;
     private userMeta: any;
 
-    private readonly apiURL: string = "http://localhost:8080/public/api/v1/execution";
+    private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
 
     constructor() {
         this.projectId = "";
