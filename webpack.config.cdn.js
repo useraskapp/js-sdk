@@ -30,6 +30,6 @@ module.exports = {
     output: {
         filename: "userask-sdk.js",
         libraryTarget: "var",
-        library: "userask_sdk"
+        library: "UserAsk"
     },
 };
