@@ -15,23 +15,18 @@
 }
 
 .userask-form-box {
-    padding: 1.5em;
-    position: absolute;
-    box-shadow: 0px 0px 10px #dddddd;
+    padding: 30px;
+    position: fixed;
+    box-shadow: 0px 0px 5px #d8d8d8;
     bottom: 1%;
     right: 1%;
     background-color: white;
     font-weight: 500;
     max-height: 500px;
-    border-radius: 10px;
+    border-radius: 5px;
     color: #252525;
-    border: 4px solid #e6e6e6;
-    z-index: 555555555;
-
-    &:hover {
-        transition: all 200ms;
-        border: 4px solid #d8d8d8;
-    }
+    border: 1px solid #ebebeb;
+    z-index: 100;
 
     @media (max-width: 450px) {
         bottom: 0%;
@@ -39,7 +34,9 @@
         right: 0%;
         margin: 0px;
         width: 100vw;
-        padding: 1em;
+        padding: 20px 5px;
+        border: none;
+        border-radius: 0px;
     }
 }
 
@@ -71,14 +68,26 @@
 
 .form__title {
     font-weight: 600;
-    font-size: 1.35em;
+    font-size: 24px;
     color: #252525;
+
+    @media (max-width: 450px) {
+        font-size: 20px;
+        margin-left: 10px;
+    }
 }
 
 .form__description {
     font-weight: normal;
-    font-size: 1.15em;
+    font-size: 18px;
     color: #252525;
+
+    @media (max-width: 450px) {
+        font-size: 15px;
+        margin-left: 10px;
+    }
+
+
 }
 
 .form__nps-list {
@@ -90,8 +99,8 @@
 
     .form__nps-list__item {
         float: left;
-        margin-left: .1em;
-        margin-right: .1em;
+        margin-left: 3px;
+        margin-right: 3px;
         height: 40px;
         width: 40px;
         display: flex;
@@ -104,17 +113,12 @@
         color: #252525;
 
         @media (max-width: 450px) {
-            margin-left: .1em;
-            margin-right: .1em;
+            margin-left: 2px;
+            margin-right: 2px;
+            border-radius: 4px;
+    
             height: 40px;
             width: 30px;
-        }
-
-        @media (max-width: 400px) {
-            margin-left: .1em;
-            margin-right: .1em;
-            height: 40px;
-            width: 25px;
         }
 
     }
@@ -135,8 +139,8 @@
 
     .form__five-scale-list__item {
         float: left;
-        margin-left: .2em;
-        margin-right: .2em;
+        margin-left: 3px;
+        margin-right: 3px;
         border-radius: 5px;
         height: 40px;
         width: 40px;
@@ -147,13 +151,6 @@
         border: 1px solid #CACACA;
         cursor: pointer;
         color: #252525;
-
-        @media (max-width: 450px) {
-            margin-left: .1em;
-            margin-right: .1em;
-            height: 40px;
-            width: 30px;
-        }
 
     }
 
@@ -175,15 +172,10 @@
 
     .form__five-star-list__item {
         float: left;
-        margin-left: .2em;
-        margin-right: .2em;
+        margin-left: 3px;
+        margin-right: 3px;
         padding: 5px;
         cursor: pointer;
-
-        @media (max-width: 400px) {
-            margin-left: -0.1em;
-            margin-right: -0.1em;
-        }
 
         .form__five-star-list__item__star {
             position: relative;
@@ -270,7 +262,6 @@
 
         }
     }
-
 }
 
 
@@ -292,23 +283,32 @@
     }
 
     @media (max-width: 450px) {
-        width: 90%;
+        width: 85%;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
 }
 
 .form__submit-button {
     all: unset;
-    padding: .75em 2em;
+    padding: 10px 25px;
     border-radius: 5px;
     color: white;
     background: var(--userask-theme);
     cursor: pointer;
+    font-weight: 400;
 
     &:hover {
         transition: all 200ms;
         filter: brightness(1.2);
     }
+
+    @media (max-width: 450px) {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
 
 }
 
@@ -323,6 +323,11 @@
         transition: all 200ms;
         text-decoration: underline;
     }
+
+    @media (max-width: 450px) {
+        right: 8%;    
+    }
+
 }
 
 .form__emoji-list {
@@ -354,14 +359,13 @@
 .form__options-list {
     list-style-type: none;
     min-width: 350px;
-    margin-right: 0.5em;
 
     .form__options-list__item {
 
-        padding-top: 1em;
-        padding-bottom: 1em;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
         text-align: center;
         border-radius: 4px;
         background: #fafafa;
@@ -394,6 +398,11 @@
         }
     }
 
+    @media (max-width: 450px) {
+        width: 92%;
+        margin: 0px 10px;
+    }
+
 }
 
 .form__endpage {
@@ -409,11 +418,11 @@
 .form__scale-text {
     display: flex;
     justify-content: space-between;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 20px;
+    padding-right: 20px;
 
     p {
-        font-size: 1em;
+        font-size: 15px;
         color: #252525;
     }
 
