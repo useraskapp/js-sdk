@@ -13,6 +13,7 @@ export class UserAsk {
     private requestId: string;
     private userId: string;
     private userMeta: any;
+    private flowMeta: any;
 
     private readonly apiURL: string = "https://beta.userask.co/public/api/v1/execution";
 
@@ -21,6 +22,7 @@ export class UserAsk {
         this.requestId = "";
         this.userId = "";
         this.userMeta = {};
+        this.flowMeta = {};
     }
 
     public async init(props: InitProps) {
@@ -46,7 +48,7 @@ export class UserAsk {
     }
 
     // calls to show survey
-    public async showSurvey(identifier: string) {
+    public async showSurvey(identifier: string, flow_meta: any = null) {
         if (identifier === null) {
             throw new Error("no event identifier is present");
         }
@@ -55,7 +57,12 @@ export class UserAsk {
             identifier: identifier,
             project_id: this.projectId,
             user_id: this.userId,
-            user_meta: this.userMeta
+            user_meta: this.userMeta,
+            flow_meta: this.flowMeta
+        }
+
+        if (flow_meta) {
+            flow_data["flow_meta"] = flow_meta;
         }
 
         let root = document.documentElement;
@@ -164,6 +171,37 @@ export class UserAsk {
 
     }
 
+    private renderLiquidToText(text: string) {
+        let words = text.split(" ");
+        let constructed_string = "";
+
+        let data: any = {
+            user_meta: this.userMeta,
+            flow_meta: this.flowMeta
+        }
+
+        for (let word of words) {
+            let pattern = /(?<=\{{).*?(?=\}})/;
+
+            let arr = word.match(pattern);
+            if (arr && arr.length > 0) {
+
+                let liquid_obj = arr[0].split(".");
+
+                if (typeof data[liquid_obj[0]][liquid_obj[1]] === "undefined") {
+                    constructed_string += " ";
+                } else {
+                    constructed_string += data[liquid_obj[0]][liquid_obj[1]] + " ";
+                }
+
+            } else {
+                constructed_string += word + " ";
+            }
+        }
+
+        return constructed_string;
+    }
+
     private renderForm(formSchema: any) {
         let formBox = document.getElementById("userask-form");
 
@@ -175,12 +213,12 @@ export class UserAsk {
 
             let title = document.createElement("h1");
             title.className = "form__title"
-            title.innerHTML = formSchema.title;
+            title.innerHTML = this.renderLiquidToText(formSchema.title);
             formBox.append(title);
 
             let description = document.createElement("p");
             description.className = "form__description"
-            description.innerHTML = formSchema.description;
+            description.innerHTML = this.renderLiquidToText(formSchema.description);
             formBox.append(description);
 
             let closeButton = document.createElement("button");
