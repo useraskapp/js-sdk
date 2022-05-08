@@ -63,6 +63,7 @@ export class UserAsk {
 
         if (flow_meta) {
             flow_data["flow_meta"] = flow_meta;
+            this.flowMeta = flow_meta;
         }
 
         let root = document.documentElement;
