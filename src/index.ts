@@ -1,7 +1,7 @@
 //For NPM
-// export * from "./userask";
+export * from "./userask";
 
 // For Global Script
-import { UserAsk } from "./userask";
+// import { UserAsk } from "./userask";
 
-module.exports = UserAsk
+// module.exports = UserAsk
