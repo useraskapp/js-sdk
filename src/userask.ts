@@ -181,23 +181,18 @@ export class UserAsk {
             flow_meta: this.flowMeta
         }
 
-        for (let word of words) {
-            let pattern = /(?<=\{{).*?(?=\}})/;
-
-            let arr = word.match(pattern);
-            if (arr && arr.length > 0) {
-
-                let liquid_obj = arr[0].split(".");
-
-                if (typeof data[liquid_obj[0]][liquid_obj[1]] === "undefined") {
-                    constructed_string += " ";
-                } else {
-                    constructed_string += data[liquid_obj[0]][liquid_obj[1]] + " ";
-                }
-
+        for(let word of words) {
+          if(word[0] == "{" && word[1] == "{" && word[word.length - 2] == "}" && word[word.length - 1] == "}") {
+            let spliced_word = word.slice(2, -2);
+            let split_word = spliced_word.split(".");
+            if (typeof data[split_word[0]][split_word[1]] === "undefined") {
+              constructed_string += " ";
             } else {
-                constructed_string += word + " ";
+              constructed_string += data[split_word[0]][split_word[1]] + " ";
             }
+          } else {
+            constructed_string += word + " ";
+          }
         }
 
         return constructed_string;
